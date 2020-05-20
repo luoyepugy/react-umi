@@ -19,6 +19,10 @@ const config: IConfig = {
           path: '/',
           component: '../pages/index',
         },
+        {
+          path: '/test',
+          component: '../pages/list',
+        },
       ],
     },
   ],

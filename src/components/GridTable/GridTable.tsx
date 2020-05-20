@@ -15,7 +15,7 @@ import moment from 'moment';
 import DrawerColumn from './DrawerColumn';
 import DrawerSearch from './DrawerSearch';
 import styles from './index.less';
-import IconFont from '@/iconfont';
+import IconFont from '@/assets/iconfont/index';
 import { DrawerSearchOptionProps } from './DrawerSearch';
 
 interface GridTable {

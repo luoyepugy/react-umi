@@ -1,72 +1,116 @@
 import React, { useState } from 'react';
 import styles from './list.less';
-import { Drawer, Table, Button } from 'antd';
+// import BlGridTable from '@/component/bl-gridtable/bl-gridtable';
+import { queryList } from '@/services/report';
+import constsReport from '@/consts/report';
+import constsCommon from '@/consts/common';
+import { BlGridTable } from 'myModule';
+// import {Select} from 'antd';
 
-const DrawerTest = props => {
-  const { visible, onClose } = props;
-  return (
-    <Drawer
-      title="Basic Drawer"
-      placement="right"
-      closable={false}
-      onClose={onClose}
-      visible={visible}
-    >
-      <p>Some contents...</p>
-      <p>Some contents...</p>
-      <p>Some contents...</p>
-    </Drawer>
-  );
-};
+class ReportListIndex extends BlGridTable {
+  constructor(props) {
+    super(props);
+    this.apiList = queryList;
+    this.showAdvancedSearch = true;
+    // this.operable = false;
 
-export default function List() {
-  const [showDrawer, setShowDrawer] = useState(false);
-
-  const dataSource = [
-    {
-      key: '1',
-      name: '胡彦斌',
-      age: 32,
-      address: '西湖区湖底公园1号',
-    },
-    {
-      key: '2',
-      name: '胡彦祖',
-      age: 42,
-      address: '西湖区湖底公园1号',
-    },
-  ];
-
-  const columns = [
-    {
-      title: '姓名',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: '年龄',
-      dataIndex: 'age',
-      key: 'age',
-    },
-    {
-      title: '住址',
-      dataIndex: 'address',
-      key: 'address',
-    },
-  ];
-
-  return (
-    <div className={styles.page}>
-      <div className={styles.breadcrumb}>Page list</div>
-      <div className={styles['content-table']}>
-        <div onClick={() => setShowDrawer(true)}>测试Drawer</div>
-        <Table scroll={{ y: `calc(100vh - 175px)` }} dataSource={dataSource} columns={columns} />
-      </div>
-      {/* <div className={styles.footer}>
-        <Button type="primary">保存</Button>
-        <Button>取消</Button>
-      </div> */}
-      {showDrawer ? <DrawerTest visible={showDrawer} onClose={() => setShowDrawer(false)} /> : null}
-    </div>
-  );
+    this.columns = [
+      {
+        title: 'ID',
+        dataIndex: 'id',
+        key: 'id',
+        checked: 3,
+      },
+      {
+        title: '姓名',
+        key: 'name',
+        dataIndex: 'name',
+        checked: 1,
+        search: {
+          mode: 1, // toolbar
+          renderType: 'Select',
+          options: constsReport.STATUS_ALL,
+          default: 0,
+        },
+      },
+      {
+        title: '年龄',
+        key: 'age',
+        dataIndex: 'age',
+        checked: 1,
+        names: ['startDate', 'endDate'],
+        search: {
+          mode: 3, // toolbar && andavancedSearch
+          renderType: 'DateRange',
+          default: ['2020-01-02', '2020-03-02'],
+        },
+      },
+      {
+        title: '住址',
+        key: 'address',
+        dataIndex: 'address',
+        checked: 2,
+        search: {
+          mode: 2, // andavancedSearch
+          renderType: 'Input',
+          default: 'aa',
+        },
+        ellipsis: true,
+      },
+      {
+        title: '测试',
+        key: ':hidden',
+        dataIndex: 'test',
+        checked: 2,
+        search: {
+          mode: 3, // andavancedSearch
+          renderType: 'Select',
+          options: constsReport.STATUS_ALL,
+          default: 2,
+        },
+        ellipsis: true,
+      },
+    ];
+    this.operatebarBtns = [
+      {
+        ...constsReport.BUTTON_AUTH.delete,
+        onClick: (key: string, rows: any) => {
+          console.log(key);
+          console.log(rows);
+        },
+      },
+      {
+        ...constsReport.BUTTON_AUTH.submit,
+        onClick: (key: string, rows: any) => {
+          console.log(key);
+          console.log(rows);
+        },
+      },
+    ];
+    this.actionColumnBtns = [
+      {
+        ...constsReport.BUTTON_AUTH.delete,
+        onClick: (key: string, rows: any) => {
+          console.log(key);
+          console.log(rows);
+        },
+      },
+      {
+        ...constsReport.BUTTON_AUTH.edit,
+        onClick: (key: string, rows: any) => {
+          console.log(key);
+          console.log(rows);
+        },
+      },
+      {
+        ...constsReport.BUTTON_AUTH.detail,
+        onClick: (key: string, rows: any) => {
+          console.log(key);
+          console.log(rows);
+        },
+      },
+    ];
+  }
 }
+
+export default ReportListIndex;

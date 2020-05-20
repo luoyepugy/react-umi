@@ -1,4 +1,4 @@
-import '@/less/index.less';
+import '@/assets/less/index.less';
 
 export const dva = {
   config: {

@@ -14,7 +14,7 @@ import styles from './index.less';
 const { Header, Sider, Content } = Layout;
 const { SubMenu } = Menu;
 
-const LayoutIndex: React.FC = (props) => {
+const LayoutIndex: React.FC = props => {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
@@ -79,7 +79,7 @@ const LayoutIndex: React.FC = (props) => {
           <iframe
             title="hello"
             className={styles.iframe}
-            src="http://localhost:8001/report/list"
+            src="http://localhost:8000/report/list"
           ></iframe>
         </Content>
       </Layout>

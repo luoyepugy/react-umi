@@ -1,5 +1,8 @@
 {
-  "private": true,
+  "name": "umi-app",
+  "private": false,
+  "version": "0.0.1",
+  "license": "MIT",
   "scripts": {
     "start": "umi dev",
     "build": "umi build",
@@ -30,6 +33,7 @@
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.11.1",
     "husky": "^0.14.3",
+    "lib-dist": "file:lib-dist",
     "lint-staged": "^7.2.2",
     "mockjs": "^1.1.0",
     "react-test-renderer": "^16.7.0",
