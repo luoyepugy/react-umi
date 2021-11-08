@@ -1,13 +1,56 @@
-// ---------- 列表布局 -----------
+// ------------------ 列表布局 --------------------
 .list-layout {
-  height: calc(100vh - 100px);
+  height: calc(100vh - 94px);
   overflow: hidden;
   margin: var(--layout-margin);
   border-radius: var(--border-radius);
+}
+
+// ------------------ 列表查询 --------------------
+.list-search {
+  width: 100%;
+  padding: 14px 14px 0px 14px;
   background-color: #fff;
+  margin-bottom: var(--layout-margin);
+
+  .ant-form {
+    display: inline-flex;
+    flex-wrap: wrap;
+    width: inherit;
+  }
+  .ant-form-item {
+    margin-bottom: 20px;
+  }
+  .ant-form-item-label {
+    flex-basis: 80px;
+  }
+  .ant-form-item {
+    flex: 33% 0 0;
+    padding-right: 20px;
+    min-width: 300px;
+  }
 
   &-btns {
-    position: absolute;
+    // position: absolute;
     right: var(--layout-margin);
+    text-align: right;
+
+    .ant-btn {
+      margin-right: 5px;
+    }
+  }
+}
+
+// ------------------ 列表表格 --------------------
+.list-table {
+  height: calc(100vh - 222px);
+  width: inherit;
+  background-color: #fff;
+  padding: var(--layout-padding);
+
+  .ant-table-wrapper {
+    height: calc(100vh - 337px);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
   }
 }
