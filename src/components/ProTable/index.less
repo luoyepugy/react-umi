@@ -1,0 +1,70 @@
+// ------------------ 基本表格 --------------------
+.protable {
+  .ant-table-thead > tr > th,
+  .ant-table-tbody > tr > td {
+    padding: 10px;
+  }
+}
+
+// ------------------ 增删改查表格 --------------------
+.protable-crud {
+  .ant-pagination {
+    margin-top: 10px;
+    float: right;
+  }
+  .ant-pagination-options-quick-jumper input {
+    margin-right: 0;
+  }
+  .ant-pagination-item {
+    border-radius: var(--border-radius);
+  }
+
+  &-default-btns {
+    text-align: right;
+    .anticon {
+      margin-left: 10px;
+      font-size: 17px;
+    }
+
+    .ant-btn {
+      margin-left: 10px;
+    }
+  }
+
+  &-operation-btns {
+    height: 32px;
+    line-height: 32px;
+
+    .btn {
+      margin-left: 15px;
+      margin-right: 0;
+    }
+  }
+
+  .protable {
+    margin-top: 10px;
+  }
+}
+
+// 列配置
+.column-setting {
+  &-header {
+    .btn {
+      float: right;
+    }
+  }
+
+  &-body {
+    .ant-checkbox-wrapper {
+      width: 100%;
+      padding: 6px 20px;
+
+      &:hover {
+        background-color: lightcyan;
+      }
+    }
+  }
+}
+.ant-popover-inner-content {
+  padding: 0;
+}
