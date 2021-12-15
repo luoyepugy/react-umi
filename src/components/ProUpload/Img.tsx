@@ -2,7 +2,7 @@
  * @Author: 张晗
  * @Date: 2021-12-13 10:58:38
  * @LastEditors: 张晗
- * @LastEditTime: 2021-12-15 16:33:26
+ * @LastEditTime: 2021-12-15 16:36:03
  * @Description: 上传图片/图标
  */
 
@@ -78,7 +78,7 @@ export default class UploadImage extends Component<UploadImageProps, UploadImage
         name={name}
         multiple={false}
         listType="picture-card"
-        className="avatar-uploader"
+        className="upload-img"
         showUploadList={false}
         action={uploadUrl}
         beforeUpload={beforeUpload}
