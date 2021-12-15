@@ -2,7 +2,7 @@
  * @Author: 张晗
  * @Date: 2021-12-13 10:58:30
  * @LastEditors: 张晗
- * @LastEditTime: 2021-12-13 11:19:14
+ * @LastEditTime: 2021-12-15 15:25:22
  * @Description: 上传文件/附件
  */
 
@@ -19,18 +19,18 @@ import { PaperClipOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import './index.less';
 
 interface UploadFileProps {
-  /** 文件字段名称  */
+  /** 文件字段名称， 默认是'file'  */
   name?: string;
   /** 接口额外参数 */
-  extraData?: any;
-  /** 默认值 */
+  extraParams?: any;
+  /** 默认文本为'请上传文件' */
   placeholder?: string;
   /** 支持上传的文件格式 */
   format?: string;
-  /** 是否显示清空按钮  */
+  /** 是否显示清空按钮，默认为true  */
   clearable?: boolean;
   /** 默认值{name: '', value: ''}显示的名称和值 */
-  defaultVal?: any;
+  defaultNameValue?: any;
   /** 上传接口url */
   url: string;
   /** 是否手动上传，默认自动上传，为false */
@@ -41,17 +41,17 @@ interface UploadFileProps {
 
 interface Ref {
   getFilePath?: () => string;
-  clear?: () => void;
+  clear?: (e: Event) => void;
 }
 
 const UploadFile: ForwardRefRenderFunction<Ref, UploadFileProps> = (props, ref) => {
   const {
     name = 'file',
     url,
-    extraData = {},
-    defaultVal = { name: '', value: '' },
+    extraParams = {},
+    defaultNameValue = { name: '', value: '' },
     format,
-    placeholder = '请上传附件',
+    placeholder = '请上传文件',
     clearable = true,
     isManualUpload = false,
   } = props;
@@ -64,14 +64,14 @@ const UploadFile: ForwardRefRenderFunction<Ref, UploadFileProps> = (props, ref) 
 
   useImperativeHandle(ref, () => ({
     getFilePath: () => {
-      return isUpload ? currentFile.response.data : defaultVal.value;
+      return isUpload ? currentFile.response.data : defaultNameValue.value;
     },
-    clear: () => onClear(),
+    clear: (e: Event) => onClear(e),
   }));
 
   const uploadProps = {
     action: url,
-    onChange: (info) => {
+    onChange: (info: any) => {
       if (isManualUpload) return;
       if (info.file.status === 'done' && info.file?.response?.status === 200) {
         setStatus('');
@@ -86,12 +86,13 @@ const UploadFile: ForwardRefRenderFunction<Ref, UploadFileProps> = (props, ref) 
         message.error(info.file?.response?.msg || '上传失败');
       }
     },
-    accept: format || '.rar,.zip,.doc,.docx,.pdf,.jpg,.png,.gif,.txt,.bmp,.xls,.xlsx',
+    // .rar,.zip,.doc,.docx,.pdf,.jpg,.png,.gif,.txt,.bmp,.xls,.xlsx
+    accept: format || '.xls,.xlsx',
     name,
     multiple: false,
     showUploadList: false,
-    data: extraData,
-    beforeUpload: (file) => {
+    data: extraParams,
+    beforeUpload: (file: any) => {
       setIsUpload(true);
       setCurrentFile(file);
       props?.getFile(file);
@@ -99,7 +100,7 @@ const UploadFile: ForwardRefRenderFunction<Ref, UploadFileProps> = (props, ref) 
     },
   };
 
-  const onClear = (e?) => {
+  const onClear = (e: Event) => {
     if (e) {
       e.preventDefault();
       e.stopPropagation();
@@ -114,11 +115,11 @@ const UploadFile: ForwardRefRenderFunction<Ref, UploadFileProps> = (props, ref) 
         <Input
           className="file"
           readOnly
-          value={isUpload ? currentFile.name : defaultVal.name}
+          value={isUpload ? currentFile.name : defaultNameValue.name}
           placeholder={placeholder}
           suffix={
-            (isUpload ? currentFile.name : defaultVal.name) && clearable ? (
-              <CloseCircleOutlined onClick={(e) => onClear(e)} />
+            (isUpload ? currentFile.name : defaultNameValue.name) && clearable ? (
+              <CloseCircleOutlined onClick={(e: any) => onClear(e)} />
             ) : (
               <PaperClipOutlined />
             )

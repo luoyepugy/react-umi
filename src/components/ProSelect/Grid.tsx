@@ -2,7 +2,7 @@
  * @Author: 张晗
  * @Date: 2021-12-10 15:15:18
  * @LastEditors: 张晗
- * @LastEditTime: 2021-12-14 13:39:06
+ * @LastEditTime: 2021-12-15 15:02:26
  * @Description: Select选择器网格（对ProSelect扩展）
  */
 
@@ -12,10 +12,7 @@ import { Select, Table } from 'antd';
 import classNames from 'classnames';
 import _ from 'lodash';
 import ProSelect, { ProSelectProps } from './index';
-// import ProTable from '../ProTable';
 import './index.less';
-import { ConsoleSqlOutlined } from '@ant-design/icons';
-import { promises } from 'dns';
 
 interface ColumnsType {
   title: string;
@@ -37,20 +34,6 @@ interface ProSelectGridProps {
   valueField?: string;
   /** 单选radio/多选checkbox， 默认为checkbox多选模式 */
   type?: 'radio' | 'checkbox' | undefined;
-  /** 远程请求方法 */
-  remoteMethod?: (
-    pageIndex: number,
-    pageSize: number,
-    searchText?: string,
-  ) => Promise<{ data: { rows: object[]; total: string | number } }>;
-  /** 远程请求接口路径 */
-  remoteUrl?: string;
-  /** 远程请求接口参数 */
-  remoteParams?: object;
-  /** 远程请求搜索字段名 */
-  remoteSearchField?: string;
-
-  isRemote?: boolean;
 
   [props: string]: any;
 }
@@ -65,44 +48,26 @@ export default function ProSelectGrid(props: ProSelectGridProps) {
     type = 'checkbox',
     value,
     onChange,
-    remoteUrl = '',
-    remoteParams = {},
-    remoteSearchField = 'keyword',
-    remoteMethod = () => {},
-    isRemote = false,
     ...rest
   } = props;
 
   const [data, setData]: Array<any> = useState([]);
   const [pageIndex, setPageIndex] = useState(1);
   const [pageSize, setPageSize]: any = useState(100);
-  const [total, setTotal]: any = useState(0);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
   const [label, setLabel]: any = useState([]);
 
   useEffect(() => {
     // 初始化数据列表
-    if (isRemote) {
-      setRemoteData(pageIndex, pageSize);
-    } else {
-      setData(dataSource, initValue);
+    if (!_.isEmpty(dataSource)) {
+      setData(dataSource);
     }
-  }, [dataSource]);
-
-  const initValue = () => {
     // 初始化选中的值
     if (!_.isEmpty(value) && data?.length > 0) {
       formatSeletedLabelAndValue(value);
     }
-  };
-
-  const setRemoteData = async (pageIndex, pageSize, searchText?: string) => {
-    const res = await remoteMethod(pageIndex, pageSize, searchText);
-    setPageIndex(pageIndex);
-    setData((res as any)?.data?.rows, initValue);
-    setTotal((res as any)?.data?.total);
-  };
+  }, [dataSource]);
 
   /**
    * 格式化选中的selectedRowKeys
@@ -124,10 +89,10 @@ export default function ProSelectGrid(props: ProSelectGridProps) {
   const setLabelByValue = (value: Array<any>) => {
     let rows: any = [];
     let labels: any = [];
-    let map = {};
+    let map: any = {};
 
     if (!_.isEmpty(value)) {
-      data.map((item) => {
+      dataSource?.map((item) => {
         if (value.includes(item[valueField])) {
           map[item[valueField]] = item;
         }
@@ -140,10 +105,6 @@ export default function ProSelectGrid(props: ProSelectGridProps) {
         rows.push(map[item]);
       });
     }
-
-    console.log(value);
-    console.log(labels);
-    console.log(rows);
 
     setLabel(labels);
     setSelectedRows(rows);
@@ -176,7 +137,6 @@ export default function ProSelectGrid(props: ProSelectGridProps) {
       updatedRowKeys = [rowKey as never];
     }
 
-    console.log(updatedRowKeys);
     setLabelByValue(updatedRowKeys);
 
     // 触发select默认的onChange事件
@@ -188,11 +148,6 @@ export default function ProSelectGrid(props: ProSelectGridProps) {
    * @param value 搜索的文本值
    */
   const onFilter = (value: string) => {
-    if (isRemote) {
-      setRemoteData(1, pageSize, value);
-      return;
-    }
-
     const filterData = data.filter(
       (item: any) => item[labelField].includes(value) || item[valueField].includes(value),
     );
@@ -234,14 +189,12 @@ export default function ProSelectGrid(props: ProSelectGridProps) {
       }}
       pagination={{
         current: pageIndex,
-        total,
         showTotal: (total) => `共${total}条`,
         showSizeChanger: true,
         pageSize,
         pageSizeOptions: ['100', '500', '1000'],
         onChange: (page) => {
           setPageIndex(page);
-          isRemote && setRemoteData(page, pageSize);
         },
         onShowSizeChange: (page, size) => setPageSize(size),
       }}
@@ -251,7 +204,6 @@ export default function ProSelectGrid(props: ProSelectGridProps) {
   return (
     <Select
       {...rest}
-      // dropdownMatchSelectWidth={false}
       mode={type === 'radio' ? undefined : 'multiple'}
       value={label}
       onSearch={_.debounce(onFilter, 500)}
