@@ -2,7 +2,7 @@
  * @Author: 张晗
  * @Date: 2021-11-15 10:09:22
  * @LastEditors: 张晗
- * @LastEditTime: 2021-12-14 13:39:34
+ * @LastEditTime: 2021-12-15 16:23:55
  * @Description: Select选择器
  */
 
@@ -14,7 +14,7 @@ import _ from 'lodash';
 import Grid from './Grid';
 import './index.less';
 
-interface FieldNamesType {
+export interface FieldNamesType {
   label?: string;
   value?: string;
 }

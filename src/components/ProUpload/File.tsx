@@ -2,7 +2,7 @@
  * @Author: 张晗
  * @Date: 2021-12-13 10:58:30
  * @LastEditors: 张晗
- * @LastEditTime: 2021-12-15 15:25:22
+ * @LastEditTime: 2021-12-15 16:24:22
  * @Description: 上传文件/附件
  */
 
@@ -95,7 +95,7 @@ const UploadFile: ForwardRefRenderFunction<Ref, UploadFileProps> = (props, ref) 
     beforeUpload: (file: any) => {
       setIsUpload(true);
       setCurrentFile(file);
-      props?.getFile(file);
+      // props?.getFile(file);
       return !isManualUpload;
     },
   };

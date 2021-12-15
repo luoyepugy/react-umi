@@ -2,7 +2,7 @@
  * @Author: 张晗
  * @Date: 2021-11-15 10:09:22
  * @LastEditors: 张晗
- * @LastEditTime: 2021-12-13 10:51:24
+ * @LastEditTime: 2021-12-15 16:25:02
  * @Description: Radio选择器（提供选项数组key别名）
  */
 
@@ -13,7 +13,7 @@ import _ from 'lodash';
 
 interface ProRadioGroupProps extends RadioGroupProps {
   options: any[];
-  fieldNames: FieldNamesType;
+  fieldNames?: FieldNamesType;
 }
 
 export default function ProRadioGroup(props: ProRadioGroupProps) {
